@@ -1,0 +1,163 @@
+{
+	"Title": "Some Letters",
+	"Description": "A silly little game about moving some letters around",
+	"StartMapId": "Main",
+	"StartMapX": 0,
+	"StartMapY": 0,
+	"Colors": [
+		{
+			"Id": "Red",
+			"Red": 255,
+			"Green": 0,
+			"Blue": 0
+		},
+		{
+			"Id": "Green",
+			"Red": 0,
+			"Green": 255,
+			"Blue": 0
+		},
+		{
+			"Id": "Blue",
+			"Red": 0,
+			"Green": 0,
+			"Blue": 255
+		},
+	],
+	"Maps": [
+		{
+			"Id": "Main",
+			"Paths": [
+				{
+					"X": 0,
+					"Y": 0,
+					"State": "Open",
+					"ColorId": "Red"
+				},
+				{
+					"X": 1,
+					"Y": 0,
+					"State": "Open",
+					"ColorId": "Red"
+				},
+				{
+					"X": 3,
+					"Y": 0,
+					"State": "Closed",
+					"ColorId": "Green"
+				}
+			],
+			"Levels": [
+				{
+					"Id": "tutorial-1",
+					"X": 2,
+					"Y": 0,
+					"Title": "An Easy Start!",
+					"Description": "Here's an easy one to get you started.",
+					"State": "Open",
+					"Color": {
+						"R": 243,
+						"G": 85,
+						"B": 175
+					},
+					"Width": 7,
+					"Height": 5,
+					"StartX": 1,
+					"StartY": 1,
+					"Tiles": [
+						{
+							"X": 1,
+							"Y": 2,
+							"Character": "s"
+						},
+						{
+							"X": 2,
+							"Y": 2,
+							"Character": "t"
+						},
+						{
+							"X": 3,
+							"Y": 2,
+							"Character": "a"
+						},
+						{
+							"X": 4,
+							"Y": 2,
+							"Character": "r"
+						},
+						{
+							"X": 5,
+							"Y": 1,
+							"Character": "t"
+						}
+					],
+					"Goals": [
+						{
+							"Id": "normal",
+							"Type": "ExactMatch",
+							"Word": "start",
+							"Direction": "Right"
+						}
+					]
+				},
+				{
+					"Id": "tutorial-2",
+					"X": 6,
+					"Y": 3,
+					"Title": "Write It Down",
+					"Description": "Here's something a little harder...",
+					"ColorId": "Blue",
+					"Width": 7,
+					"Height": 7,
+					"StartX": 1,
+					"StartY": 5,
+					"Tiles": [
+						{
+							"X": 3,
+							"Y": 6,
+							"Character": "w"
+						},
+						{
+							"X": 3,
+							"Y": 5,
+							"Character": "e"
+						},
+						{
+							"X": 3,
+							"Y": 4,
+							"Character": "l"
+						},
+						{
+							"X": 3,
+							"Y": 3,
+							"Character": "c"
+						},
+						{
+							"X": 3,
+							"Y": 2,
+							"Character": "o"
+						},
+						{
+							"X": 4,
+							"Y": 1,
+							"Character": "m"
+						},
+						{
+							"X": 3,
+							"Y": 0,
+							"Character": "e"
+						}
+					],
+					"Goals": [
+						{
+							"Id": "normal",
+							"Type": "ExactMatch",
+							"Word": "welcome",
+							"Direction": "Up"
+						}
+					]
+				}
+			]
+		}
+	]
+}
