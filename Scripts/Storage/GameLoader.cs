@@ -69,16 +69,24 @@ namespace Surreily.SomeWords.Scripts.Storage {
         private static PathModel GetPathModel(
             JsonPath jsonPath, Dictionary<string, Color> colorsById) {
 
+            PathState state = !string.IsNullOrEmpty(jsonPath.State)
+                ? Enum.Parse<PathState>(jsonPath.State)
+                : PathState.Closed;
+
             return new PathModel {
-                X = jsonPath.X,
-                Y = jsonPath.Y,
+                Position = new Vector2I(jsonPath.X, jsonPath.Y),
                 State = Enum.Parse<PathState>(jsonPath.State),
                 Color = colorsById[jsonPath.ColorId],
+                DirectionFlags = DirectionFlags.Left | DirectionFlags.Up,
             };
         }
 
         private static LevelModel GetLevelModel(
             JsonLevel jsonLevel, Dictionary<string, Color> colorsById) {
+
+            LevelState state = !string.IsNullOrEmpty(jsonLevel.State)
+                ? Enum.Parse<LevelState>(jsonLevel.State)
+                : LevelState.Closed;
 
             return new LevelModel {
                 Id = jsonLevel.Id,
@@ -86,7 +94,7 @@ namespace Surreily.SomeWords.Scripts.Storage {
                 Y = jsonLevel.Y,
                 Title = jsonLevel.Title,
                 Description = jsonLevel.Description,
-                State = Enum.Parse<LevelState>(jsonLevel.State),
+                State = state,
                 Color = colorsById[jsonLevel.ColorId],
                 Width = jsonLevel.Width,
                 Height = jsonLevel.Height,

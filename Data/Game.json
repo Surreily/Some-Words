@@ -27,6 +27,7 @@
 	"Maps": [
 		{
 			"Id": "Main",
+			"Decorations": [],
 			"Paths": [
 				{
 					"X": 0,
@@ -55,11 +56,7 @@
 					"Title": "An Easy Start!",
 					"Description": "Here's an easy one to get you started.",
 					"State": "Open",
-					"Color": {
-						"R": 243,
-						"G": 85,
-						"B": 175
-					},
+					"ColorId": "Red",
 					"Width": 7,
 					"Height": 5,
 					"StartX": 1,
@@ -94,9 +91,11 @@
 					"Goals": [
 						{
 							"Id": "normal",
-							"Type": "ExactMatch",
+							"Type": "Match",
 							"Word": "start",
-							"Direction": "Right"
+							"Directions": [
+								"Right"
+							]
 						}
 					]
 				},
@@ -151,9 +150,11 @@
 					"Goals": [
 						{
 							"Id": "normal",
-							"Type": "ExactMatch",
+							"Type": "Match",
 							"Word": "welcome",
-							"Direction": "Up"
+							"Directions": [
+								"Up"
+							]
 						}
 					]
 				}

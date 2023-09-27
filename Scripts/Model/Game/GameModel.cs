@@ -8,6 +8,7 @@ namespace Surreily.SomeWords.Scripts.Model.Game {
         public int StartMapX { get; set; }
         public int StartMapY { get; set; }
 
+        public List<ColorModel> Colors { get; set; }
         public List<MapModel> Maps { get; set; }
     }
 }

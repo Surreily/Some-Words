@@ -1,6 +1,14 @@
-[gd_scene format=3 uid="uid://dmnc3qgn1q26n"]
+[gd_scene load_steps=3 format=3 uid="uid://dmnc3qgn1q26n"]
+
+[ext_resource type="Script" path="res://Scripts/Map/MapManager.cs" id="1_dxkmb"]
+[ext_resource type="TileSet" uid="uid://dovcqvom2hoc" path="res://Textures/MapTiles.tres" id="2_g1cpm"]
 
 [node name="Map" type="Node2D"]
+script = ExtResource("1_dxkmb")
 
 [node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_g1cpm")
 format = 2
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
