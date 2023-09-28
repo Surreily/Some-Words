@@ -21,45 +21,57 @@ namespace Surreily.SomeWords.Scripts.Storage {
             return JsonConvert.DeserializeObject<JsonGame>(json);
         }
 
+        #region Get game model
+
         private static GameModel GetGameModel(JsonGame jsonGame) {
             Dictionary<string, Color> colorsById = jsonGame.Colors
                 .ToDictionary(
                     color => color.Id,
                     color => new Color(color.Red / 255f, color.Green / 255f, color.Blue / 255f));
 
-            return new GameModel {
+            GameModel gameModel = new GameModel {
                 Name = jsonGame.Name,
                 Description = jsonGame.Description,
                 StartMapId = jsonGame.StartMapId,
                 StartMapX = jsonGame.StartMapX,
                 StartMapY = jsonGame.StartMapY,
-                Maps = jsonGame.Maps
-                    .Select(map => GetMapModel(map, colorsById))
-                    .ToList(),
             };
+
+            gameModel.Maps = jsonGame.Maps
+                .Select(map => GetMapModel(gameModel, map, colorsById))
+                .ToList();
+
+            return gameModel;
         }
 
         private static MapModel GetMapModel(
-            JsonMap jsonMap, Dictionary<string, Color> colorsById) {
+            GameModel gameModel, JsonMap jsonMap, Dictionary<string, Color> colorsById) {
 
-            return new MapModel {
+            MapModel mapModel = new MapModel {
+                Game = gameModel,
                 Id = jsonMap.Id,
-                Decorations = jsonMap.Decorations
-                    .Select(decoration => GetDecorationModel(decoration, colorsById))
-                    .ToList(),
-                Paths = jsonMap.Paths
-                    .Select(path => GetPathModel(path, colorsById))
-                    .ToList(),
-                Levels = jsonMap.Levels
-                    .Select(level => GetLevelModel(level, colorsById))
-                    .ToList(),
             };
+
+            mapModel.Decorations = jsonMap.Decorations
+                .Select(decoration => GetDecorationModel(mapModel, decoration, colorsById))
+                .ToList();
+
+            mapModel.Paths = jsonMap.Paths
+                .Select(path => GetPathModel(mapModel, path, colorsById))
+                .ToList();
+
+            mapModel.Levels = jsonMap.Levels
+                .Select(level => GetLevelModel(mapModel, level, colorsById))
+                .ToList();
+
+            return mapModel;
         }
 
         private static DecorationModel GetDecorationModel(
-            JsonDecoration jsonDecoration, Dictionary<string, Color> colorsById) {
+            MapModel mapModel, JsonDecoration jsonDecoration, Dictionary<string, Color> colorsById) {
 
             return new DecorationModel {
+                Map = mapModel,
                 X = jsonDecoration.X,
                 Y = jsonDecoration.Y,
                 Material = jsonDecoration.Material,
@@ -67,13 +79,14 @@ namespace Surreily.SomeWords.Scripts.Storage {
         }
 
         private static PathModel GetPathModel(
-            JsonPath jsonPath, Dictionary<string, Color> colorsById) {
+            MapModel mapModel, JsonPath jsonPath, Dictionary<string, Color> colorsById) {
 
             PathState state = !string.IsNullOrEmpty(jsonPath.State)
                 ? Enum.Parse<PathState>(jsonPath.State)
                 : PathState.Closed;
 
             return new PathModel {
+                Map = mapModel,
                 Position = new Vector2I(jsonPath.X, jsonPath.Y),
                 State = Enum.Parse<PathState>(jsonPath.State),
                 Color = colorsById[jsonPath.ColorId],
@@ -82,16 +95,16 @@ namespace Surreily.SomeWords.Scripts.Storage {
         }
 
         private static LevelModel GetLevelModel(
-            JsonLevel jsonLevel, Dictionary<string, Color> colorsById) {
+            MapModel mapModel, JsonLevel jsonLevel, Dictionary<string, Color> colorsById) {
 
             LevelState state = !string.IsNullOrEmpty(jsonLevel.State)
                 ? Enum.Parse<LevelState>(jsonLevel.State)
                 : LevelState.Closed;
 
-            return new LevelModel {
+            LevelModel levelModel = new LevelModel {
+                Map = mapModel,
                 Id = jsonLevel.Id,
-                X = jsonLevel.X,
-                Y = jsonLevel.Y,
+                Position = new Vector2I(jsonLevel.X, jsonLevel.Y),
                 Title = jsonLevel.Title,
                 Description = jsonLevel.Description,
                 State = state,
@@ -100,32 +113,40 @@ namespace Surreily.SomeWords.Scripts.Storage {
                 Height = jsonLevel.Height,
                 StartX = jsonLevel.StartX,
                 StartY = jsonLevel.StartY,
-                Tiles = jsonLevel.Tiles
-                    .Select(tile => GetTileModel(tile))
-                    .ToList(),
-                Goals = jsonLevel.Goals
-                    .Select(goal => GetGoalModel(goal))
-                    .ToList(),
             };
+
+            levelModel.Tiles = jsonLevel.Tiles
+                .Select(tile => GetTileModel(levelModel, tile))
+                .ToList();
+            levelModel.Goals = jsonLevel.Goals
+                .Select(goal => GetGoalModel(levelModel, goal))
+                .ToList();
+
+            return levelModel;
         }
 
-        private static TileModel GetTileModel(JsonTile tile) {
+        private static TileModel GetTileModel(LevelModel levelModel, JsonTile jsonTile) {
             return new TileModel {
-                X = tile.X,
-                Y = tile.Y,
-                Character = tile.Character[0],
+                Level = levelModel,
+                X = jsonTile.X,
+                Y = jsonTile.Y,
+                Character = jsonTile.Character[0],
             };
         }
 
-        private static GoalModel GetGoalModel(JsonGoal goal) {
+        private static GoalModel GetGoalModel(LevelModel levelModel, JsonGoal jsonGoal) {
             return new GoalModel {
-                Id = goal.Id,
-                Type = Enum.Parse<GoalType>(goal.Type),
-                Word = goal.Word,
-                Directions = goal.Directions
+                Level = levelModel,
+                Id = jsonGoal.Id,
+                Type = Enum.Parse<GoalType>(jsonGoal.Type),
+                Word = jsonGoal.Word,
+                Directions = jsonGoal.Directions
                     .Select(direction => Enum.Parse<Direction>(direction))
                     .ToList(),
             };
         }
+
+        #endregion
+
     }
 }

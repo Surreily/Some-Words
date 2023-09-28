@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Godot;
+using Surreily.SomeWords.Scripts.Algorithms;
 using Surreily.SomeWords.Scripts.Enums;
 using Surreily.SomeWords.Scripts.Model.Game;
 using Surreily.SomeWords.Scripts.Storage;
@@ -17,6 +18,10 @@ namespace SomeWords.Scripts.Map {
             SetUpPathPositions();
 
             GameModel gameModel = GameLoader.Load();
+
+            MapAlgorithm mapAlgorithm = new MapAlgorithm(gameModel.Maps[0]);
+            mapAlgorithm.InitializeMap(gameModel.Maps[0]);
+
             LoadMap(gameModel.Maps[0]);
         }
 

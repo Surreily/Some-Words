@@ -3,6 +3,8 @@ using Surreily.SomeWords.Scripts.Enums;
 
 namespace Surreily.SomeWords.Scripts.Model.Game {
     public class GoalModel {
+        public LevelModel Level { get; set; }
+
         public string Id { get; set; }
         public GoalType Type { get; set; }
         public string Word { get; set; }
